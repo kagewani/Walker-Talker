@@ -41,37 +41,3 @@ done
 #echo $delimiter$delimiter
 #echo "#   REPORT on $DIR   FINISHED: `date`"
 #echo $delimiter$delimiter
-
-
-
-
-# #!/bin/ksh
-# #talker 0.2
-
-# WDIR=`dirname $0`
-# DIR=${WDIR}/errpt_all
-
-# delimiter=########################################
-# cur_date=`date +%m%d%y`
-# for file in $DIR/*
-# do
-#   nstr=`awk '{if (d==substr($2,1,4) substr($2,9,2)) n++}; END {print n}' d=$cur_date $file`
-#   if [ -n "$nstr" ]
-#   then
-#     echo $delimiter$delimiter
-#     echo "#     `basename $file`       `date`"
-#     echo $delimiter$delimiter
-#     awk '{if (d==substr($2,1,4) substr($2,9,2)) print}' d=$cur_date $file
-#     echo
-#   fi
-# done
-
-# i=100 n_hosts=600 for_string=
-# while [ "$i" -le "$n_hosts" ]
-# do
-# for_string="$for_string HOST$i->xxx.yyy.zzz.000"
-# i=`expr $i + 1`
-# done
-# for i in $for_string
-# do echo $i
-# done
