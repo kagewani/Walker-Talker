@@ -1,5 +1,5 @@
 #!/bin/ksh
-#talker 0.3
+#talker 0.4
 
 if [ $# -eq 0 ]
 then
@@ -19,7 +19,27 @@ mm=`expr $1 : '..\(..\)'`
 yy=`expr $1 : '....\(..\)'`
 
 WDIR=`dirname $0`
-DIR=${WDIR}/errpt_all
+DIR=${WDIR}/errpt_aix
+delimiter=#######################################
+
+#echo $delimiter$delimiter
+#echo "#   REPORT on $DIR   STARTED: `date`"
+#echo $delimiter$delimiter
+#echo
+for file in $DIR/*
+do
+  nstr=`awk '{if (d==substr($2,1,4) substr($2,9,2)) n++}; END {print n}' d=$mm$dd$yy $file`
+  if [ -n "$nstr" ]
+  then
+    echo $delimiter$delimiter
+    echo "#  `basename $file`  REPORT on ${dd}.${mm}.${yy}"
+    echo $delimiter$delimiter
+    awk '{if (d==substr($2,1,4) substr($2,9,2)) print}' d=$mm$dd$yy $file
+    echo
+  fi
+done
+
+DIR=${WDIR}/errpt_vios
 delimiter=#######################################
 
 #echo $delimiter$delimiter

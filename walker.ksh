@@ -1,5 +1,5 @@
 #!/bin/ksh -x
-#walker 0.36
+#walker 0.37
 # Global Environment
 WDIR=`dirname $0`
 TMP="tmpfile"
@@ -8,7 +8,7 @@ OUTPUT="output"
 #
 #  Name: walker
 #
-#  Walks around and pulls something by ssh
+#  Walks around and pulls errpt/errlog by ssh
 #
 #  Arguments:   none
 #
@@ -42,12 +42,13 @@ walker_routine()
         if [ -f $WDIR/$DIR/$FILENAME ]
         then
             diff -D "" $WDIR/$DIR/$FILENAME.new $WDIR/$DIR/$FILENAME| sed -e '/^#/d; /^ *$/d'>$WDIR/$DIR/$TMP
-            if [ -s $WDIR/$DIR/$TMP ]
+            if [ -s $WDIR/$DIR/$TMP ] # and if empty?
                 then
                     mv $WDIR/$DIR/$TMP $WDIR/$DIR/$FILENAME
                     rm $WDIR/$DIR/$OUTPUT
                     rm $WDIR/$DIR/$FILENAME.new
                 else
+                rm $WDIR/$DIR/$TMP
                 rm $WDIR/$DIR/$OUTPUT
                 rm $WDIR/$DIR/$FILENAME.new
             fi
