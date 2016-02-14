@@ -1,5 +1,4 @@
 #!/bin/ksh
-#talker 0.4
 
 if [ $# -eq 0 ]
 then
@@ -18,46 +17,34 @@ dd=`expr $1 : '\(..\)'`
 mm=`expr $1 : '..\(..\)'`
 yy=`expr $1 : '....\(..\)'`
 
+talker_routine()
+{
+  if [ `ls $DIR|wc -l` -gt 0 ]
+    then
+      for file in $DIR/*
+      do
+        nstr=`awk '{if (d==substr($2,1,4) substr($2,9,2)) n++}; END {print n}' d=$mm$dd$yy $file`
+        if [ -n "$nstr" ]
+        then
+          echo $delimiter$delimiter
+          echo "#  `basename $file`  REPORT on ${dd}.${mm}.${yy}"
+          echo $delimiter$delimiter
+          awk '{if (d==substr($2,1,4) substr($2,9,2)) print}' d=$mm$dd$yy $file
+          echo
+        fi
+      done
+    else echo "No files in $DIR"
+  fi
+}
+
+
 WDIR=`dirname $0`
 DIR=${WDIR}/errpt_aix
 delimiter=#######################################
 
-#echo $delimiter$delimiter
-#echo "#   REPORT on $DIR   STARTED: `date`"
-#echo $delimiter$delimiter
-#echo
-for file in $DIR/*
-do
-  nstr=`awk '{if (d==substr($2,1,4) substr($2,9,2)) n++}; END {print n}' d=$mm$dd$yy $file`
-  if [ -n "$nstr" ]
-  then
-    echo $delimiter$delimiter
-    echo "#  `basename $file`  REPORT on ${dd}.${mm}.${yy}"
-    echo $delimiter$delimiter
-    awk '{if (d==substr($2,1,4) substr($2,9,2)) print}' d=$mm$dd$yy $file
-    echo
-  fi
-done
+talker_routine
 
 DIR=${WDIR}/errpt_vios
 delimiter=#######################################
 
-#echo $delimiter$delimiter
-#echo "#   REPORT on $DIR   STARTED: `date`"
-#echo $delimiter$delimiter
-#echo
-for file in $DIR/*
-do
-  nstr=`awk '{if (d==substr($2,1,4) substr($2,9,2)) n++}; END {print n}' d=$mm$dd$yy $file`
-  if [ -n "$nstr" ]
-  then
-    echo $delimiter$delimiter
-    echo "#  `basename $file`  REPORT on ${dd}.${mm}.${yy}"
-    echo $delimiter$delimiter
-    awk '{if (d==substr($2,1,4) substr($2,9,2)) print}' d=$mm$dd$yy $file
-    echo
-  fi
-done
-#echo $delimiter$delimiter
-#echo "#   REPORT on $DIR   FINISHED: `date`"
-#echo $delimiter$delimiter
+talker_routine
